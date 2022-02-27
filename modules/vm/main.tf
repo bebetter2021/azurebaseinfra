@@ -72,7 +72,7 @@ resource "azurerm_linux_virtual_machine" "vaultvm" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04.0-LTS"
+    sku       = "18.04.0-LTS"
     version   = "latest"
   }
 
