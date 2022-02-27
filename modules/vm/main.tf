@@ -57,7 +57,7 @@ resource "azurerm_linux_virtual_machine" "vaultvm" {
   location                        = var.location
   resource_group_name             = var.resource_group
   network_interface_ids           = [azurerm_network_interface.vm_nic.id]
-  size                            = "Standard_DS1_v2"
+  size                            = var.vm_size
   computer_name                   = "vaultvm"
   admin_username                  = var.vm_user
   admin_password                  = random_password.adminpassword.result
@@ -87,17 +87,17 @@ resource "azurerm_linux_virtual_machine" "vaultvm" {
     inline = [
       "sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2",
       "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -",
-      "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -"
-      "sudo apt-add-repository ""deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main""",
+      "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -",
+      "sudo apt-add-repository 'deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main'",
       "sudo apt-get update",
       "sudo apt-get install -y vault"
     ]
   }
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "hublink" {
-  name                  = "hubnetdnsconfig"
-  resource_group_name   = var.dns_zone_resource_group
-  private_dns_zone_name = var.dns_zone_name
-  virtual_network_id    = var.vnet_id
-}
+// resource "azurerm_private_dns_zone_virtual_network_link" "hublink" {
+//   name                  = "hubnetdnsconfig"
+//   resource_group_name   = var.dns_zone_resource_group
+//   private_dns_zone_name = var.dns_zone_name
+//   virtual_network_id    = var.vnet_id
+// }
