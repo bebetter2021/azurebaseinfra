@@ -2,7 +2,7 @@ resource "azurerm_virtual_network" "baseinfra" {
   name                = "base-vnet"
   location            = local.tags.region
   resource_group_name = azurerm_resource_group.baseinfra.name
-  address_space       = ["10.0.10.0/24"]
+  address_space       = ["10.0.1.0/24"]
   tags                = local.tags
 }
 
@@ -10,7 +10,7 @@ resource "azurerm_subnet" "baseinfra" {
   name                 = "base-subnet"
   resource_group_name  = azurerm_resource_group.baseinfra.name
   virtual_network_name = azurerm_virtual_network.baseinfra.name
-  address_prefixes     = ["10.0.10.0/25"]
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_network_security_group" "baseinfra" {
@@ -20,7 +20,7 @@ resource "azurerm_network_security_group" "baseinfra" {
   tags                = local.tags
 }
 
-resource "azurerm_network_security_rule" "aks" {
+resource "azurerm_network_security_rule" "baseinfra" {
   for_each                    = local.nsg_rules
   name                        = each.key
   priority                    = each.value["priority"]
@@ -34,4 +34,3 @@ resource "azurerm_network_security_rule" "aks" {
   resource_group_name         = azurerm_resource_group.baseinfra.name
   network_security_group_name = azurerm_network_security_group.baseinfra.name
 }
-
