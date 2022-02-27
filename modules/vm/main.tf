@@ -85,12 +85,10 @@ resource "azurerm_linux_virtual_machine" "vaultvm" {
     }
 
     inline = [
-      "sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2",
-      "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -",
       "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -",
       "sudo apt-add-repository 'deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main'",
       "sudo apt-get update",
-      "sudo apt-get install -y vault"
+      "sudo snap install vault"
     ]
   }
 }
