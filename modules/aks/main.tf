@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   role_based_access_control_enabled = true
   http_application_routing_enabled  = false
   azure_policy_enabled              = true
-  oidc_issuer_enabled               = true
+  #oidc_issuer_enabled               = true
   #private_cluster_enabled = var.private_cluster_enabled
   #private_dns_zone_id     = var.private_dns_zone_id
 
