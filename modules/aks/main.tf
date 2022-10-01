@@ -6,12 +6,18 @@ data "azurerm_subscription" "primary" {}
 #   name = "Private DNS Zone Contributor"
 # }
 
-resource "azurerm_user_assigned_identity" "dns" {
-  name                = "aks-dns-identity"
+resource "azurerm_user_assigned_identity" "aks-cluster" {
+  name                = "aks-cluster"
   resource_group_name = var.resource_group.name
   location            = var.resource_group.location
 }
 
+
+resource "azurerm_user_assigned_identity" "aks-nodepool" {
+  name                = "aks-nodepool"
+  resource_group_name = var.resource_group.name
+  location            = var.resource_group.location
+}
 
 # resource "azurerm_role_assignment" "aks-dns" {
 #   scope                = data.azurerm_subscription.primary.id
@@ -34,6 +40,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   role_based_access_control_enabled = true
   http_application_routing_enabled  = false
   azure_policy_enabled              = true
+  oidc_issuer_enabled               = true
   #private_cluster_enabled = var.private_cluster_enabled
   #private_dns_zone_id     = var.private_dns_zone_id
 
@@ -53,7 +60,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   # }
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.dns.id]
+    identity_ids = [azurerm_user_assigned_identity.aks-cluster.id]
+  }
+
+  kubelet_identity {
+    client_id                 = azurerm_user_assigned_identity.aks-nodepool.client_id
+    object_id                 = azurerm_user_assigned_identity.aks-nodepool.principal_id
+    user_assigned_identity_id = azurerm_user_assigned_identity.aks-nodepool.id
   }
 
   linux_profile {
@@ -62,6 +75,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
       key_data = var.linux_profile.sshkey
     }
   }
+
+  local_account_disabled = true
 
   # verify that these items are needed, we think they are, possibly srd requirement
   network_profile {
