@@ -83,7 +83,7 @@ module "aks" {
   dns_prefix         = var.dns_prefix
   linux_profile = {
     sshkey   = tls_private_key.aks_key.public_key_openssh
-    username = "admin"
+    username = "adminuser"
   }
   cluster_admin_ids = var.cluster_admin_ids
   resource_group    = azurerm_resource_group.k8sinfra
