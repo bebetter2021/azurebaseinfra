@@ -2,9 +2,9 @@ locals {
   tags = {
     owner             = "tgo"
     region            = "centralus"
-    product           = "mybaseinfra"
+    product           = "testcluster"
     cost_center       = "0000"
-    environment       = "prod"
+    environment       = "test"
     technical_contact = "tgo"
   }
   nsg_rules = {
