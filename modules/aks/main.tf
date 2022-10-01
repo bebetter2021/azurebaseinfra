@@ -13,11 +13,11 @@ resource "azurerm_user_assigned_identity" "aks-cluster" {
 }
 
 
-resource "azurerm_user_assigned_identity" "aks-nodepool" {
-  name                = "aks-nodepool"
-  resource_group_name = var.resource_group.name
-  location            = var.resource_group.location
-}
+# resource "azurerm_user_assigned_identity" "aks-nodepool" {
+#   name                = "aks-nodepool"
+#   resource_group_name = var.resource_group.name
+#   location            = var.resource_group.location
+# }
 
 # resource "azurerm_role_assignment" "aks-dns" {
 #   scope                = data.azurerm_subscription.primary.id
@@ -63,11 +63,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
     identity_ids = [azurerm_user_assigned_identity.aks-cluster.id]
   }
 
-  kubelet_identity {
-    client_id                 = azurerm_user_assigned_identity.aks-nodepool.client_id
-    object_id                 = azurerm_user_assigned_identity.aks-nodepool.principal_id
-    user_assigned_identity_id = azurerm_user_assigned_identity.aks-nodepool.id
-  }
+  # kubelet_identity {
+  #   client_id                 = azurerm_user_assigned_identity.aks-nodepool.client_id
+  #   object_id                 = azurerm_user_assigned_identity.aks-nodepool.principal_id
+  #   user_assigned_identity_id = azurerm_user_assigned_identity.aks-nodepool.id
+  # }
 
   linux_profile {
     admin_username = var.linux_profile.username
