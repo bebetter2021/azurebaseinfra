@@ -76,7 +76,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
-  local_account_disabled = true
+  #local_account_disabled = true
 
   # verify that these items are needed, we think they are, possibly srd requirement
   network_profile {
