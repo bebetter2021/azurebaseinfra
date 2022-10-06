@@ -2,9 +2,9 @@ locals {
   tags = {
     owner             = "tgo"
     region            = "centralus"
-    product           = "mybaseinfra"
+    product           = "testcluster"
     cost_center       = "0000"
-    environment       = "prod"
+    environment       = "test"
     technical_contact = "tgo"
   }
   nsg_rules = {
@@ -12,7 +12,7 @@ locals {
       name                       = "allow-tcp-80-inbound"
       priority                   = 140
       direction                  = "Inbound"
-      access                     = "Deny"
+      access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = "80"
@@ -23,7 +23,7 @@ locals {
       name                       = "allow-tcp-443-inbound"
       priority                   = 150
       direction                  = "Inbound"
-      access                     = "Deny"
+      access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = "443"
@@ -34,7 +34,7 @@ locals {
       name                       = "allow-tcp-22-inbound"
       priority                   = 151
       direction                  = "Inbound"
-      access                     = "Deny"
+      access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = "22"
@@ -45,7 +45,7 @@ locals {
       name                       = "allow-tcp-6443-inbound"
       priority                   = 145
       direction                  = "Inbound"
-      access                     = "Deny"
+      access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = "6443"
